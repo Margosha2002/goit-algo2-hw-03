@@ -2,10 +2,10 @@ import networkx as nx
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Побудова графа
+
 G = nx.DiGraph()
 
-# Додавання ребер з пропускною здатністю
+
 edges = [
     ("Terminal 1", "Warehouse 1", 25),
     ("Terminal 1", "Warehouse 2", 20),
@@ -32,7 +32,7 @@ edges = [
 for u, v, capacity in edges:
     G.add_edge(u, v, capacity=capacity)
 
-# Додавання джерела та стоку
+
 source = "SuperSource"
 sink = "SuperSink"
 
@@ -57,10 +57,10 @@ for shop in [
 ]:
     G.add_edge(shop, sink, capacity=float("inf"))
 
-# Алгоритм Едмондса-Карпа
+
 flow_value, flow_dict = nx.maximum_flow(G, source, sink)
 
-# Формування результатів
+
 results = []
 for terminal in ["Terminal 1", "Terminal 2"]:
     for warehouse, flow_to_warehouse in flow_dict[terminal].items():
@@ -71,18 +71,18 @@ for terminal in ["Terminal 1", "Terminal 2"]:
                         (terminal, shop, min(flow_to_warehouse, flow_to_shop))
                     )
 
-# Перетворення у таблицю
+
 df = pd.DataFrame(results, columns=["Terminal", "Shop", "Actual Flow (units)"])
 
-# Виведення результатів
+
 print("Max Flow Value:", flow_value)
 print("\nFlow Table:")
 print(df)
 
-# Збереження у файл
+
 df.to_csv("logistics_flow_results.csv", index=False)
 
-# Візуалізація графа з налаштованими позиціями
+
 pos = {
     "SuperSource": (0, 5),
     "Terminal 1": (1, 4),
